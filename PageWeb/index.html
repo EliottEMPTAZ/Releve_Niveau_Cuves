@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Relevé Niveau des Cuves</title>
+</head>
+<body>
+    <h1>Niveau des Cuves</h1>
+    <div id="data">
+        <div>
+            <h4>Dernier Relevé : <span id="date"></span></h4>
+        </div>
+        <div id="cuves-container">
+            <div class="cuve" id="cuve1">
+                <h2>Cuve 1:</h2>
+                <p><span id="niveau1"></span> </p>
+            </div>
+            <div class="cuve" id="cuve2">
+                <h2>Cuve 2:</h2>
+                <p><span id="niveau2"></span> </p>
+            </div>
+        </div>            
+        <div class="chart-container">
+            <div class="date-inputs-container">
+                <label for="startDate">Début:</label>
+                <input type="date" id="startDate">
+                
+                <label for="endDate">Fin:</label>
+                <input type="date" id="endDate">
+                
+                <button onclick="updateChart()">Mettre à jour</button>
+            </div>
+            <div>
+                <canvas id="chart"></canvas>
+            </div>
+        </div>
+        
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="scripts.js"></script>
+</body>
+</html>
