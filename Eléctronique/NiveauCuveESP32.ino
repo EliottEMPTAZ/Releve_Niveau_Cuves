@@ -16,6 +16,11 @@ const int httpPort = 8888;
 #define ECHO_PIN1     33  // Broche Echo pour le capteur 1
 #define TRIGGER_PIN2  25  // Broche Trigger pour le capteur 2
 #define ECHO_PIN2     26  // Broche Echo pour le capteur 2
+
+//Définition du pin de la led
+#define LED_PIN 14
+
+//Definition des parametres de mesure
 //#define MAX_CUVE  85 // Distance maximale de mesure pour le capteur ultrason
 #define MAX_CUVE  24 // heuteur de la cuve pleine
 #define ESPACE  7.5 // Distance entre le capteur et le niveau max de l'eau
@@ -25,8 +30,8 @@ UltraSonicDistanceSensor sonar1(TRIGGER_PIN1, ECHO_PIN1);
 UltraSonicDistanceSensor sonar2(TRIGGER_PIN2, ECHO_PIN2);
 WiFiClient client;
 
-void setup()
-{
+void setup(){
+    pinMode(LED_PIN, OUTPUT);
     Serial.begin(115200);
     delay(10);
 
@@ -79,11 +84,21 @@ void setup()
         }
         delay(tryDelay);
         
+        if (WiFi.status() == WL_CONNECTED) {
+            digitalWrite(LED_PIN, HIGH); // Allume la LED si WiFi est connecté
+            Serial.println("[WiFi] WiFi is connected!");
+            Serial.print("[WiFi] IP address: ");
+            Serial.println(WiFi.localIP());
+            break;  // Sortez de la boucle une fois connecté
+        } else {
+            digitalWrite(LED_PIN, LOW); // Éteint la LED si WiFi n'est pas connecté
+        }
+
         if(numberOfTries <= 0){
           Serial.print("[WiFi] Failed to connect to WiFi!");
           // Use disconnect function to force stop trying to connect
           WiFi.disconnect();
-          return;
+          break;
         } else {
           numberOfTries--;
         }
