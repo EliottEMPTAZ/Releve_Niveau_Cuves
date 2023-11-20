@@ -13,8 +13,6 @@ function loadData(startDate, endDate) {
             // Dessiner les graphiques
             if (data.allEntries && data.allEntries.length > 0) {
                 drawChart('chart', data.allEntries);
-            } else {
-                document.getElementById('data').innerHTML = '<p>Aucune donnée disponible pour la période sélectionnée.</p>';
             }
         })
         .catch(error => console.error('Erreur lors de la récupération des données:', error));
