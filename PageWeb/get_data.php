@@ -9,10 +9,6 @@ $db = new PDO("sqlite:$databasePath");
 $startDate = isset($_GET['start']) ? $_GET['start'] : null;
 $endDate = isset($_GET['end']) ? $_GET['end'] : null;
 
-// Convertir les dates en format acceptable par SQL si elles sont définies
-$startDate = $startDate ? (new DateTime($startDate))->format('Y-m-d H:i:s') : null;
-$endDate = $endDate ? (new DateTime($endDate))->format('Y-m-d H:i:s') : null;
-
 // Préparation de la requête pour obtenir tous les enregistrements dans la plage de dates
 $query = "SELECT * FROM NiveauxEau";
 $parameters = [];
@@ -30,7 +26,7 @@ if ($startDate || $endDate) {
     $query .= " WHERE " . implode(' AND ', $conditions);
 }
 
-$query .= " ORDER BY timestamp ASC";
+$query .= " ORDER BY timestamp ASC";//" WHERE timestamp > '2023-11-20 00:00:00' ORDER BY timestamp ASC"
 $stmtAllEntries = $db->prepare($query);
 $stmtAllEntries->execute($parameters);
 $allEntries = $stmtAllEntries->fetchAll(PDO::FETCH_ASSOC);
@@ -41,7 +37,9 @@ $lastEntry = $stmtLastEntry->fetch(PDO::FETCH_ASSOC);
 
 $response = [
     'lastEntry' => false,
-    'allEntries' => []
+    'allEntries' => [],
+    'startDate' => "$startDate",
+    'endDate' => "$endDate"
 ];
 
 // Si des données sont trouvées pour le dernier enregistrement, les ajouter à la réponse

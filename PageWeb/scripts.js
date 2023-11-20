@@ -1,5 +1,14 @@
+const currentDate = new Date();
+const threeMonthsAgo = new Date();
+threeMonthsAgo.setMonth(currentDate.getMonth() - 3);
+
+const formatDate = (date) => {
+    return date.toISOString().split('T')[0];
+};
+
 // Fonction pour charger les données à partir du serveur et mettre à jour l'affichage
 function loadData(startDate, endDate) {
+
     let url = 'get_data.php';
     if (startDate && endDate) {
         url += `?start=${startDate}&end=${endDate}`;
@@ -13,6 +22,8 @@ function loadData(startDate, endDate) {
             // Dessiner les graphiques
             if (data.allEntries && data.allEntries.length > 0) {
                 drawChart('chart', data.allEntries);
+            } else {
+                drawChart('chart', []);
             }
         })
         .catch(error => console.error('Erreur lors de la récupération des données:', error));
@@ -93,23 +104,20 @@ function drawChart(canvasId, data) {
 
 // Fonction appelée par le bouton pour mettre à jour le graphique
 function updateChart() {
-    const startDate = document.getElementById('startDate').value;
-    const endDate = document.getElementById('endDate').value;
-    loadData(startDate, endDate);
+    console.log("click");
+    const _startDate = document.getElementById('startDate').value;
+    console.log(_startDate);
+    const _endDate = document.getElementById('endDate').value;
+    loadData(_startDate + " 00:00:00", _endDate + " 23:59:59");
 }
 
 // Ajout des écouteurs d'événements pour le chargement de la page
 document.addEventListener('DOMContentLoaded', (event) => {
-    const currentDate = new Date();
-    const threeMonthsAgo = new Date();
-    threeMonthsAgo.setMonth(currentDate.getMonth() - 3);
-
-    const formatDate = (date) => date.toISOString().split('T')[0];
     document.getElementById('startDate').value = formatDate(threeMonthsAgo);
     document.getElementById('endDate').value = formatDate(currentDate);
 
     // Assurez-vous que l'élément 'niveau1' existe avant de lancer cette fonction
     if (document.getElementById('niveau1') && document.getElementById('niveau2')) {
-        loadData(formatDate(threeMonthsAgo), formatDate(currentDate));
+        loadData(formatDate(threeMonthsAgo) + " 00:00:00", formatDate(currentDate) + " 23:59:59");
     }
 });
