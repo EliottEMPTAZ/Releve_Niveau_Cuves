@@ -56,13 +56,7 @@ function drawChart(canvasId, data) {
     const dataCuve2 = data.map(entry => parseFloat(entry.niveau_cuve_2));
     const dataAverage = data.map((entry, index) => (dataCuve1[index] + dataCuve2[index]) / 2);
 
-    // Destruction de l'ancien graphique s'il existe
-    if (window.myChart) {
-        window.myChart.destroy();
-    }
-
-    // Création du nouveau graphique
-    window.myChart = new Chart(ctx, {
+    const _data = {
         type: 'line',
         data: {
             labels: labels,
@@ -98,8 +92,22 @@ function drawChart(canvasId, data) {
             },
             responsive: true,
             maintainAspectRatio: true
-        }
-    });
+        }};
+
+    // update de l'ancien graphique s'il existe
+    if (window.myChart) {
+        window.myChart.data.datasets[0] = _data.data.datasets[0];
+        window.myChart.data.datasets[1] = _data.data.datasets[1];
+        window.myChart.data.datasets[2] = _data.data.datasets[2];
+        window.myChart.update();
+    }
+    else
+    {
+    // Création du nouveau graphique
+    window.myChart = new Chart(ctx, _data);
+    }
+
+
 }
 
 // Fonction appelée par le bouton pour mettre à jour le graphique
@@ -119,5 +127,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
     // Assurez-vous que l'élément 'niveau1' existe avant de lancer cette fonction
     if (document.getElementById('niveau1') && document.getElementById('niveau2')) {
         loadData(formatDate(threeMonthsAgo) + " 00:00:00", formatDate(currentDate) + " 23:59:59");
+        setInterval(() => {
+            loadData(formatDate(threeMonthsAgo) + " 00:00:00", formatDate(currentDate) + " 23:59:59");
+        }, 5000);
     }
 });
