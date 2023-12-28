@@ -3,8 +3,8 @@
 #include <HCSR04.h>
 
 // Remplacer par vos SSID et mot de passe WiFi
-const char* ssid     = "iPhone 14Pro de Eliott";
-const char* password = "aaaaaaab";
+const char* ssid     = "EMPTAZ #1";
+const char* password = "familleemptaz";
 
 // Votre serveur et chemin
 const char* host = "172.20.10.3"; // Supprimez "http://" pour WiFiClient
