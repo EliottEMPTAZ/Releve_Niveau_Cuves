@@ -6,10 +6,6 @@
 const char* ssid     = "EMPTAZ #1";
 const char* password = "familleemptaz";
 
-// Votre serveur et chemin
-const char* host = "172.20.10.3"; // Supprimez "http://" pour WiFiClient
-const int httpPort = 8888;
-
 // Définition des broches pour les deux capteurs ultrasoniques
 #define TRIGGER_PIN1  32  // Broche Trigger pour le capteur 1
 #define ECHO_PIN1     33  // Broche Echo pour le capteur 1
@@ -67,7 +63,7 @@ void loop() {
 
   if (client.connect(host, httpPort)) { // Connecte le client au serveur
     // Crée la chaîne de requête POST
-    String url = "http://172.20.10.3:8888/save_water_level.php";
+    String url = "http://192.168.1.10/save_water_level.php";
     String postData = "niveau_cuve_1=" + String(niveau_cuve_1) + "&niveau_cuve_2=" + String(niveau_cuve_2);
 
     // Envoie la requête POST au serveur
