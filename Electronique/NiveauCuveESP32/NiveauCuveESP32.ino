@@ -3,8 +3,12 @@
 #include <HCSR04.h>
 
 // Remplacer par vos SSID et mot de passe WiFi
-const char* ssid     = "EMPTAZ #1";
+const char* ssid     = "EMPTAZ #3";
 const char* password = "familleemptaz";
+
+// Votre serveur et chemin
+const char* host = "192.168.1.10"; // Supprimez "http://" pour WiFiClient
+const int httpPort = 80;
 
 // Définition des broches pour les deux capteurs ultrasoniques
 #define TRIGGER_PIN1  32  // Broche Trigger pour le capteur 1
@@ -16,8 +20,8 @@ const char* password = "familleemptaz";
 #define LED_PIN 14
 
 //Definition des parametres de mesure
-#define MAX_CUVE  24 // heuteur de la cuve pleine
-#define ESPACE  7.5 // Distance entre le capteur et le niveau max de l'eau
+#define MAX_CUVE  80 // heuteur de la cuve pleine
+#define ESPACE  20 // Distance entre le capteur et le niveau max de l'eau
 
 // Création de deux objets pour les deux capteurs
 UltraSonicDistanceSensor sonar1(TRIGGER_PIN1, ECHO_PIN1);
